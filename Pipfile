@@ -8,7 +8,8 @@ verify_ssl = true
 [packages]
 flask = "*"
 flask-sqlalchemy = "*"
-connexion = "*"
+connexion = {extras = ["swagger-ui"],version = "*"}
+psycopg2 = "*"
 
 [requires]
 python_version = "3.6"
