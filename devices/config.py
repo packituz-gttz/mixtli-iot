@@ -1,6 +1,7 @@
 import os
 import connexion
 from flask_sqlalchemy import SQLAlchemy
+from flask_marshmallow import Marshmallow
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -20,6 +21,7 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 # Create the SqlAlchemy db instance
 db = SQLAlchemy(app)
+ma = Marshmallow(app)
 
 from models import Product, Device
 

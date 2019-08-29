@@ -170,5 +170,39 @@ components:
           type: string
           description: JSON data
 
-
+    Products:
+      type: object
+      required:
+        - name
+      properties:
+        id:
+          type: integer
+          description: Unique identifier
+          example: 1
+          readOnly: true
+        name:
+          type: string
+          description: Product Name
+          example: Raspberry Pi
+          minLength: 1
+          maxLength: 50
+        description:
+          type: string
+          description: Product details
+          example: This product has the following capabilities...
+          minLength: 0
+          maxLength: 300
+        devices:
+          type: object
+          $ref: '#/components/schemas/Devices'
+        created:
+          type: string
+          format: date-time
+          description: Date & time (UTC) the device was added to DB
+          readOnly: true
+        updated:
+          type: string
+          format: date-time
+          description: Date & time (UTC) device information was updated
+          readOnly: true
 

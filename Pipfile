@@ -10,6 +10,8 @@ flask = "*"
 flask-sqlalchemy = "*"
 connexion = {extras = ["swagger-ui"],version = "*"}
 psycopg2 = "*"
+marshmallow-sqlalchemy = "*"
+flask-marshmallow = "*"
 
 [requires]
 python_version = "3.6"
