@@ -33,18 +33,6 @@ paths:
             schema:
               x-body-name: device
               $ref: '#/components/schemas/Devices'
-    put:
-      operationId: views.put_device
-      summary: Update or Create device
-      responses:
-        201:
-          description: Devices not present, creating
-      requestBody:
-        content:
-          application/json:
-            schema:
-              x-body-name: device
-              $ref: '#/components/schemas/Devices'
 
   /devices/{device_id}:
     get:
@@ -75,6 +63,20 @@ paths:
                 $ref: '#/components/schemas/Devices'
         404:
           description: Device not found
+    put:
+      operationId: views.put_device
+      summary: Update device
+      parameters:
+        - $ref: '#/components/parameters/device_id'
+      responses:
+        201:
+          description: Updates devices information, except for readonly fields
+      requestBody:
+        content:
+          application/json:
+            schema:
+              x-body-name: device
+              $ref: '#/components/schemas/Devices'
 
 components:
   parameters:
