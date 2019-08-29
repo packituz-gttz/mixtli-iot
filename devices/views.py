@@ -1,8 +1,9 @@
 from flask import abort
-from models import Device
+from devices.models import Device, db, DeviceSchema
+# from models import Device
 from sqlalchemy.exc import OperationalError
-from models import db
-from models import DeviceSchema
+# from models import db
+# from models import DeviceSchema
 from connexion import NoContent
 
 device_schema = DeviceSchema()
@@ -16,7 +17,6 @@ def get_devices():
     try:
         devices_list = Device.query.all()
         result = device_schemas.dump(devices_list)
-        print("DEVICES", devices_list)
     except TimeoutError:
         abort(408, "Timeout error, please try again")
     except Exception:
@@ -34,7 +34,6 @@ def get_device(device_id):
     try:
         device = Device.query.filter_by(id=device_id).first()
         result = device_schema.dump(device)
-        print('DEVIC', device)
         if device is None:
             raise ValueError
     except TimeoutError:

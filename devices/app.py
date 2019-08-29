@@ -1,4 +1,4 @@
-import config
+from devices import config
 
 connex_app = config.connex_app
 connex_app.add_api('openapi.yaml')

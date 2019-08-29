@@ -23,7 +23,7 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
 
-from models import Product, Device
+from devices.models import Product, Device
 
-db.create_all()
+# db.create_all()
 
