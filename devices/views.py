@@ -74,15 +74,13 @@ def put_device(device_id, device):
     :return:
     """
     try:
-        print("DEV", device)
         Device.query.filter_by(id=device_id).update(device)
         db.session.commit()
     except TimeoutError:
         abort(400)
     except OperationalError:
         abort(503)
-    except Exception as e:
-        print("e", e)
+    except Exception:
         abort(500)
 
     return NoContent, 204
