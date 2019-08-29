@@ -36,13 +36,39 @@ paths:
                 $ref: '#/components/schemas/Devices'
         404:
           description: Device not found
+    delete:
+      operationId: views.delete_device
+      summary: Delete single device by id
+      parameters:
+        - $ref: '#/components/parameters/device_id'
+      responses:
+        204:
+          description: Device deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Devices'
+        404:
+          description: Device not found
   /devices/:
     post:
       operationId: views.post_device
       summary: Add new device
       responses:
-        204:
+        201:
           description: Device added successfully
+      requestBody:
+        content:
+          application/json:
+            schema:
+              x-body-name: device
+              $ref: '#/components/schemas/Devices'
+    put:
+      operationId: views.put_device
+      summary: Update or Create device
+      responses:
+        201:
+          description: Devices not present, creating
       requestBody:
         content:
           application/json:
