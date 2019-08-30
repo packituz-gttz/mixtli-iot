@@ -1,4 +1,3 @@
-# from devices import config
 import json
 import unittest
 import connexion
@@ -10,8 +9,6 @@ class TestDeviceCase(unittest.TestCase):
         flask_app = connexion.FlaskApp(__name__)
         flask_app.add_api('openapi.yaml')
         self.client = flask_app.app.test_client()
-        # config.app.testing = True
-        # self.app = config.app.test_client()
 
         self.device1 = {
             "description": "This devices monitors the computer's temperature",

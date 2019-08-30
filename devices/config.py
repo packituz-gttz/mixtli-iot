@@ -15,7 +15,6 @@ app = connex_app.app
 postgres_url = "postgresql+psycopg2://admin:123456@localhost/devices"
 
 # Configure the SqlAlchemy part of the app instance
-# app.config["SQLALCHEMY_ECHO"] = True
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('SQLALCHEMY_DATABASE_URI', postgres_url)
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
@@ -23,7 +22,4 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
 
-from devices.models import Product, Device
-
-# db.create_all()
 

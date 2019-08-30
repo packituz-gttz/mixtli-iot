@@ -1,9 +1,6 @@
 from flask import abort
 from devices.models import Device, db, DeviceSchema
-# from models import Device
 from sqlalchemy.exc import OperationalError
-# from models import db
-# from models import DeviceSchema
 from connexion import NoContent
 
 device_schema = DeviceSchema()
@@ -27,8 +24,7 @@ def get_devices():
 
 def get_device(device_id):
     """
-
-    :param device_id:
+    :param device_id: Unique Id for device
     :return: Return device info
     """
     try:
@@ -48,9 +44,8 @@ def get_device(device_id):
 
 def post_device(device):
     """
-
-    :param device:
-    :return: Add new device
+    :param device: Dictionary containing the information about the new device
+    :return: Http status code
     """
     try:
         new_device = Device(**device)
@@ -69,9 +64,9 @@ def post_device(device):
 def put_device(device_id, device):
     """
 
-    :param device_id:
-    :param device:
-    :return:
+    :param device_id: Unique Id for device
+    :param device: Dictionary containing the information about the new device
+    :return: Http status code
     """
     try:
         Device.query.filter_by(id=device_id).update(device)
@@ -89,8 +84,8 @@ def put_device(device_id, device):
 def delete_device(device_id):
     """
 
-    :param device_id:
-    :return: Delete device
+    :param device_id: Unique Id for device
+    :return: Http status code
     """
     try:
         device = Device.query.filter_by(id=device_id).first()
