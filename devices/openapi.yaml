@@ -78,11 +78,94 @@ paths:
               x-body-name: device
               $ref: '#/components/schemas/Devices'
 
+  /products:
+    get:
+      operationId: views.get_products
+      summary: Get list of products
+      responses:
+        200:
+          description: Returns products
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  products:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Products'
+    post:
+      operationId: views.post_device
+      summary: Add new product
+      responses:
+        201:
+          description: Product added succesfully
+      requestBody:
+        content:
+          application/json:
+            schema:
+              x-body-name: product
+              $ref: '#/components/schemas/Products'
+
+  /products/{product_id}:
+    get:
+      operationId: views.get_device
+      summary: Get single product by id
+      parameters:
+        - $ref: '#/components/parameters/product_id'
+      responses:
+        200:
+          description: Returns requested product
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Products'
+        404:
+          description: Product not found
+
+    delete:
+      summary: Delete a single product by id
+      operationId: views.delete_product
+      parameters:
+        - $ref: '#/components/parameters/product_id'
+      responses:
+        204:
+          description: Product delete successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Products'
+        404:
+          description: Product not found
+
+    put:
+      summary: Update product
+      operationId: views.put_product
+      parameters:
+        - $ref: '#/components/parameters/product_id'
+      responses:
+        204:
+          description: Product update succesfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Products'
+        404:
+          description: Product not found
+
 components:
   parameters:
     device_id:
       name: device_id
       description: Device Unique Id
+      in: path
+      required: true
+      schema:
+        type: integer
+        pattern: '^[0-9]+$'
+    product_id:
+      name: product_id
+      description: Product Unique Id
       in: path
       required: true
       schema:
