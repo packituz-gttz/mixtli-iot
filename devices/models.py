@@ -1,6 +1,6 @@
 from datetime import datetime
-from devices.config import db
-from devices.config import ma
+from app import db
+from app import ma
 
 
 class BaseModel(db.Model):

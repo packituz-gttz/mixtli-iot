@@ -1,5 +1,5 @@
 from flask import abort
-from devices.models import Device, db, DeviceSchema, Product, ProductSchema
+from models import Device, db, DeviceSchema, Product, ProductSchema
 from sqlalchemy.exc import OperationalError
 from connexion import NoContent
 
@@ -28,7 +28,7 @@ def get_devices():
 def get_device(device_id):
     """
     :param device_id: Unique Id for device
-    :return: Return device info
+    :return: Device info
     """
     try:
         device = Device.query.filter_by(id=device_id).first()
@@ -66,7 +66,6 @@ def post_device(device):
 
 def put_device(device_id, device):
     """
-
     :param device_id: Unique Id for device
     :param device: Dictionary containing the information about the new device
     :return: Http status code
@@ -86,7 +85,6 @@ def put_device(device_id, device):
 
 def delete_device(device_id):
     """
-
     :param device_id: Unique Id for device
     :return: Http status code
     """
@@ -108,7 +106,6 @@ def delete_device(device_id):
 
 def get_products():
     """
-
     :return: List of products
     """
     try:
@@ -124,9 +121,8 @@ def get_products():
 
 def get_product(product_id):
     """
-
-    :param product_id:
-    :return:
+    :param product_id: Unique Id for product
+    :return: Product info
     """
     try:
         product = Product.query.filter_by(id=product_id).first()
@@ -145,9 +141,8 @@ def get_product(product_id):
 
 def post_product(product):
     """
-
-    :param product:
-    :return:
+    :param product: Dictionary containing info about new product
+    :return: Http status code
     """
     try:
         new_product = Product(**product)
@@ -160,13 +155,14 @@ def post_product(product):
     except Exception:
         abort(500)
 
-    return NoContent
+    return NoContent, 201
 
 
 def put_product(product_id, product):
     """
-
-    :return:
+    :param product_id: Unique product Id
+    :param product: Dictionary containing updated info about product
+    :return: Http code status
     """
     try:
         Product.query.filter_by(id=product_id).update(product)
@@ -176,13 +172,13 @@ def put_product(product_id, product):
         abort(503)
     except Exception:
         abort(500)
+    return NoContent, 204
 
 
 def delete_product(product_id):
     """
-
-    :param product_id:
-    :return:
+    :param product_id: Unique product Id
+    :return: Http status code
     """
     try:
         product = Product.query.filter_by(id=product_id).first()

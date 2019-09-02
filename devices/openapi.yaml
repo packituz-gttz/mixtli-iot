@@ -69,7 +69,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/device_id'
       responses:
-        201:
+        204:
           description: Updates devices information, except for readonly fields
       requestBody:
         content:
@@ -139,19 +139,18 @@ paths:
           description: Product not found
 
     put:
-      summary: Update product
       operationId: views.put_product
+      summary: Update product
       parameters:
         - $ref: '#/components/parameters/product_id'
       responses:
         204:
-          description: Product update succesfully
-        404:
-          description: Product not found
+          description: Updates product info
       requestBody:
         content:
           application/json:
             schema:
+              x-body-name: product
               $ref: '#/components/schemas/Products'
 
 components:
