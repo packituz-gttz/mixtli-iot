@@ -12,6 +12,7 @@ connexion = {extras = ["swagger-ui"],version = "*"}
 psycopg2 = "*"
 marshmallow-sqlalchemy = "*"
 flask-marshmallow = "*"
+flask-migrate = "*"
 
 [requires]
-python_version = "3.6"
+python_version = "3.7"
