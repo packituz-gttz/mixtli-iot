@@ -95,7 +95,7 @@ paths:
                     items:
                       $ref: '#/components/schemas/Products'
     post:
-      operationId: views.post_device
+      operationId: views.post_product
       summary: Add new product
       responses:
         201:
@@ -109,7 +109,7 @@ paths:
 
   /products/{product_id}:
     get:
-      operationId: views.get_device
+      operationId: views.get_product
       summary: Get single product by id
       parameters:
         - $ref: '#/components/parameters/product_id'
@@ -146,12 +146,13 @@ paths:
       responses:
         204:
           description: Product update succesfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Products'
         404:
           description: Product not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Products'
 
 components:
   parameters:
