@@ -1,0 +1,293 @@
+openapi: 3.0.0
+servers:
+  - url: http://localhost:5000/
+info:
+  title: Mixtli Iot devices API
+  version: '0.0.1'
+paths:
+  /devices:
+    get:
+      operationId: views.get_devices
+      summary: Get list of devices
+      responses:
+        200:
+          description: Returns devices
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  devices:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Devices'
+    post:
+      operationId: views.post_device
+      summary: Add new device
+      responses:
+        201:
+          description: Device added successfully
+      requestBody:
+        content:
+          application/json:
+            schema:
+              x-body-name: device
+              $ref: '#/components/schemas/Devices'
+
+  /devices/{device_id}:
+    get:
+      operationId: views.get_device
+      summary: Get single device by id
+      parameters:
+        - $ref: '#/components/parameters/device_id'
+      responses:
+        200:
+          description: Returns requested device
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Devices'
+        404:
+          description: Device not found
+    delete:
+      operationId: views.delete_device
+      summary: Delete single device by id
+      parameters:
+        - $ref: '#/components/parameters/device_id'
+      responses:
+        204:
+          description: Device deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Devices'
+        404:
+          description: Device not found
+    put:
+      operationId: views.put_device
+      summary: Update device
+      parameters:
+        - $ref: '#/components/parameters/device_id'
+      responses:
+        204:
+          description: Updates devices information, except for readonly fields
+      requestBody:
+        content:
+          application/json:
+            schema:
+              x-body-name: device
+              $ref: '#/components/schemas/Devices'
+
+  /products:
+    get:
+      operationId: views.get_products
+      summary: Get list of products
+      responses:
+        200:
+          description: Returns products
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  products:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Products'
+    post:
+      operationId: views.post_product
+      summary: Add new product
+      responses:
+        201:
+          description: Product added succesfully
+      requestBody:
+        content:
+          application/json:
+            schema:
+              x-body-name: product
+              $ref: '#/components/schemas/Products'
+
+  /products/{product_id}:
+    get:
+      operationId: views.get_product
+      summary: Get single product by id
+      parameters:
+        - $ref: '#/components/parameters/product_id'
+      responses:
+        200:
+          description: Returns requested product
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Products'
+        404:
+          description: Product not found
+
+    delete:
+      summary: Delete a single product by id
+      operationId: views.delete_product
+      parameters:
+        - $ref: '#/components/parameters/product_id'
+      responses:
+        204:
+          description: Product delete successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Products'
+        404:
+          description: Product not found
+
+    put:
+      operationId: views.put_product
+      summary: Update product
+      parameters:
+        - $ref: '#/components/parameters/product_id'
+      responses:
+        204:
+          description: Updates product info
+      requestBody:
+        content:
+          application/json:
+            schema:
+              x-body-name: product
+              $ref: '#/components/schemas/Products'
+
+components:
+  parameters:
+    device_id:
+      name: device_id
+      description: Device Unique Id
+      in: path
+      required: true
+      schema:
+        type: integer
+        pattern: '^[0-9]+$'
+    product_id:
+      name: product_id
+      description: Product Unique Id
+      in: path
+      required: true
+      schema:
+        type: integer
+        pattern: '^[0-9]+$'
+  schemas:
+    Devices:
+      type: object
+      required:
+        - name
+        - serial_number
+        - mac
+      properties:
+        id:
+          type: integer
+          description: Unique identifier
+          example: 1
+          readOnly: true
+        name:
+          type: string
+          description: Device Name
+          example: Sensor oxygeno
+          minLength: 1
+          maxLength: 50
+        description:
+          type: string
+          description: Device details
+          example: This devices monitors the computer's temperature
+          minLength: 0
+          maxLength: 300
+        location:
+          type: string
+          description: Device location
+          example: Building A7
+          minLength: 1
+          maxLength: 300
+        device_status:
+          type: integer
+          description: Device current status, offline=0, online=1, sleep=2
+          example: 0
+        hardware_version:
+          type: string
+          description: Current hardware version
+          minLength: 1
+          maxLength: 50
+          example: 0.0.1
+        software_version:
+          type: string
+          description: Current software version
+          minLength: 1
+          maxLength: 50
+          example: 0.0.1-dev
+        manufacturer:
+          type: string
+          description: Device manufacturer
+          minLength: 1
+          maxLength: 50
+          example: ncr-inc
+        serial_number:
+          type: string
+          description: Unique device serial number
+          minLength: 1
+          maxLength: 100
+          example: Y0139836
+        mac:
+          type: string
+          minLength: 1
+          maxLength: 50
+          example: 00:25:96:FF:FE:12:34:56
+          description: Device mac address
+        last_connection:
+          type: string
+          format: date-time
+          description: Last time device was seen
+          readOnly: true
+        created:
+          type: string
+          format: date-time
+          description: Date & time (UTC) the device was added to DB
+          readOnly: true
+        updated:
+          type: string
+          format: date-time
+          description: Date & time (UTC) device information was updated
+          readOnly: true
+        meta_data:
+          type: string
+          description: JSON data
+
+    Products:
+      type: object
+      required:
+        - name
+      properties:
+        id:
+          type: integer
+          description: Unique identifier
+          example: 1
+          readOnly: true
+        name:
+          type: string
+          description: Product Name
+          example: Raspberry Pi
+          minLength: 1
+          maxLength: 50
+        description:
+          type: string
+          description: Product details
+          example: This product has the following capabilities...
+          minLength: 0
+          maxLength: 300
+        devices:
+          type: object
+          $ref: '#/components/schemas/Devices'
+        created:
+          type: string
+          format: date-time
+          description: Date & time (UTC) the device was added to DB
+          readOnly: true
+        updated:
+          type: string
+          format: date-time
+          description: Date & time (UTC) device information was updated
+          readOnly: true
+
