@@ -1,24 +1,38 @@
-from devices.conf import Config
+from conf import Config
 import os
 import connexion
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from flask_migrate import Migrate
 
-basedir = os.path.abspath(os.path.dirname(__file__))
+db = SQLAlchemy()
+ma = Marshmallow()
+migrate = Migrate()
 
-connex_app = connexion.App(__name__, specification_dir=basedir)
 
 
-app = connex_app.app
-app.config.from_object(Config)
+def create_app(testing=False, cli=False):
+    """Application factory, used to create application
+    """
+    connex_app = connexion.App(__name__)
+    connex_app.add_api('openapi.yaml')
 
-db = SQLAlchemy(app)
-ma = Marshmallow(app)
-migrate = Migrate(app, db)
+    app = connex_app.app
+    app.config.from_object(Config)
 
-# Load api specification
-connex_app.add_api('openapi.yaml')
+    if testing is True:
+        app.config['TESTING'] = True
+
+    db.init_app(app)
+    ma.init_app(app)
+
+    if cli is True:
+        migrate.init_app(app, db)
+
+    return connex_app
+
+
 
 if __name__ == '__main__':
-    connex_app.run(debug=True)
+    app = create_app()
+    app.run(debug=True)
